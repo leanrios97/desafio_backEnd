@@ -1,0 +1,105 @@
+create database Desafio
+
+create table Usuarios (
+	IdUser int primary key identity (1,1) not Null,
+	Nombre varchar(40) not null,
+	Apellido varchar(40) not null,
+	CorreoElectronico varchar(100) not null,
+	FechaNacimiento datetime,
+	telefono varchar(10),
+	PaisResidencia varchar(3) not null,
+	SerContactado varchar(1) not null
+)
+
+create table Actividad (
+	Id_actividad int identity (1,1) not Null,
+	Create_date datetime,
+	Id_usuario int primary key not Null,
+	Actividad varchar(50) not null
+)
+
+
+use Desafio
+
+---- Sp a crear ---
+
+-- insertar usuario
+create or alter procedure sp_registrar(
+	@Nombre varchar(40) ,
+	@Apellido varchar(40) ,
+	@CorreoElectronico varchar(100),
+	@FechaNacimiento datetime,
+	@telefono varchar(10),
+	@PaisResidencia varchar(3),
+	@SerContactado varchar(1)
+	)
+as 
+begin 
+
+insert into Usuarios(Nombre,Apellido, CorreoElectronico, FechaNacimiento,telefono,PaisResidencia, SerContactado)
+values (
+@Nombre,
+@Apellido,
+@CorreoElectronico,
+@FechaNacimiento,
+@telefono,
+@PaisResidencia,
+@SerContactado
+)
+end 
+
+go
+
+-- Modificar usuario
+create or alter procedure sp_ModificarUsuario (	
+	@IdUser int,
+	@Nombre varchar(40) ,
+	@Apellido varchar(40) ,
+	@CorreoElectronico varchar(100),
+	@FechaNacimiento datetime,
+	@telefono varchar(10),
+	@PaisResidencia varchar(3),
+	@SerContactado varchar(1)
+)
+as 
+begin 
+update Usuarios 
+set 
+	Nombre = @Nombre,
+	Apellido = @Apellido,
+	CorreoElectronico = @CorreoElectronico,
+	FechaNacimiento = @FechaNacimiento,
+	telefono = @telefono,
+	PaisResidencia = @PaisResidencia,
+	SerContactado = @SerContactado
+where IdUser = @IdUser
+
+end 
+
+go
+
+-- buscar usuario
+create or alter procedure sp_optenerUsuario (@IdUser int)
+as 
+begin 
+select * from Usuarios where IdUser = @IdUser
+end
+
+go
+
+-- Listaro usuarios
+create or alter procedure sp_listar 
+as 
+begin 
+select * from Usuarios
+end
+
+go
+ 
+--Eliminar usuario
+create or alter procedure sp_eliminarUsuario(@IdUser int)
+as 
+begin 
+delete Usuarios where IdUser = @IdUser
+end 
+go
